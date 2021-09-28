@@ -7,10 +7,11 @@ class Category:
         self.ledger = []
         self._bal_amount = 0.00
 
-    def __str__(self) -> str:
+    def __str__(self):
         bill = self.category.center(30, '*') + '\n'
         for i in self.ledger:
             bill += f'{i.get("description")[:23]:23}' + f'{i.get("amount"):7.2f}' + '\n'
+
         bill += f'Total: {self.get_balance():.2f}'
         return bill
 
@@ -21,11 +22,11 @@ class Category:
         }
         self.ledger.append(ledger_obj)
 
-    def deposit(self, amt: Union[float, int], description: str = 'No Description') -> None:
+    def deposit(self, amt: Union[float, int], description: str = '') -> None:
         self._bal_amount += amt
         self.add_ledger(amt, description)
 
-    def withdraw(self, amt: Union[float, int], description: str = 'No Description') -> bool:
+    def withdraw(self, amt: Union[float, int], description: str = '') -> bool:
         res = self.check_funds(amt)
         if res:
             self._bal_amount -= amt
@@ -39,8 +40,8 @@ class Category:
     def transfer(self, amt: Union[float, int], bud_cat: "Category") -> bool:
         res = self.check_funds(amt)
         if res:
-            self.withdraw(amt, f"Transfer to {bud_cat}")
-            bud_cat.deposit(amt,  f"Transfer from {self}")
+            self.withdraw(amt, f"Transfer to {bud_cat.category}")
+            bud_cat.deposit(amt,  f"Transfer from {self.category}")
             return True
         return False
 
