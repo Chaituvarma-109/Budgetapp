@@ -1,12 +1,4 @@
 from typing import Union
-"""
-*************Food*************
-initial deposit        1000.00
-groceries               -10.15
-restaurant and more foo -15.89
-Transfer to Clothing    -50.00
-Total: 923.96
-"""
 
 
 class Category:
