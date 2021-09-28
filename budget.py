@@ -14,13 +14,22 @@ class Category:
         self.ledger = []
         self._bal_amount = 0.00
 
+    def add_ledger(self, amt, description):
+        ledger_obj = {
+            "amount": amt,
+            "description": description
+        }
+        self.ledger.append(ledger_obj)
+
     def deposit(self, amt, description=None) -> None:
         self._bal_amount += amt
+        self.add_ledger(self._bal_amount, description)
 
     def withdraw(self, amt, description=None) -> bool:
         res = self.check_funds(amt)
         if res:
             self._bal_amount -= amt
+            self.add_ledger(-self._bal_amount, description)
             return True
         return False
 
@@ -30,6 +39,8 @@ class Category:
     def transfer(self, amt, bud_cat) -> bool:
         res = self.check_funds(amt)
         if res:
+            self.withdraw(amt, f"Transfer to {bud_cat}")
+            bud_cat.deposit(amt,  f"Transfer from {self}")
             return True
         return False
 
